@@ -5,18 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
 
   <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
-  
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;1,800&display=swap');
+  </style>
   <title>Frontend Mentor | Age calculator app</title>
 
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
 </head>
 <body>
+  <div class="main-card">
+    <div class="input">
+      <div class="day-input">
+        <label for="number">day</label>
+        <input type="number" id="day" placeholder="DD">
+      </div>
+      <div class="month-input">
+        <label for="number">month</label>
+        <input type="number" id="month" placeholder="MM">
+      </div>
+      <div class="year-input">
+        <label for="number">year</label>
+        <input type="number" id="year" placeholder="YYYY">
+      </div>
+    </div>
+    <div class="breakline">
+      <button><img src="assets/images/icon-arrow.svg" alt=""></button>
+    </div>
 
-  Day
+    <div class="results">
+      <h1><span class="years-result">--</span> years</h1>
+      <h1><span class="months-result">--</span> months</h1>
+      <h1><span class="days-result">--</span> days</h1>
+    </div>
+
+  </div>
+ 
+</body>
+</html>
+
+
+  <!-- Day
   DD
 
   Month
@@ -28,10 +56,4 @@
   -- years
   -- months
   -- days
-  
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
-  </div>
-</body>
-</html>
+   -->
