@@ -18,8 +18,11 @@ const yearOut = document.getElementById('years-result');
 
 const currentDate = new Date();
 
+const yearDiff ='', monthDiff ='', dayDiff ='';
+
 let maxDay = '', leapYear = '', yearResult = '', monthResult = '', dayResult = '';
-let dayDone = false, monthDone = false, yearDone = false;
+let inputDate = '';
+
 
 
 
@@ -31,14 +34,16 @@ submitBtn.addEventListener("click", (e) => {
     const monthVal = monthIn.value;
     const yearVal = yearIn.value;
 
-    checkYear(yearVal);
+    const inputDate = new Date(yearVal, monthVal-1, dayVal);
+    console.log(inputDate)
+
+    checkYear(yearVal,inputDate);
     leapYear = isLeapYear(yearVal);
-    checkMonth(monthVal);
+    checkMonth(monthVal, inputDate);
     maxDay = getMaxDay(monthVal);
-    checkDay(dayVal);
+    checkDay(dayVal, monthResult, inputDate);
 
     showResults(yearResult, monthResult, dayResult);
-    // allDone(yearDone,monthDone,dayDone);
     
     
 });
@@ -46,8 +51,9 @@ submitBtn.addEventListener("click", (e) => {
 
 // Check if year is valid
 
-function checkYear(yearVal) {
+function checkYear(yearVal, inputDate) {
     const currentYear = currentDate.getFullYear();
+    const inputYear = inputDate.getFullYear();
 
     if(yearVal == ''){
         yearError.innerHTML = "Input Required";
@@ -55,9 +61,6 @@ function checkYear(yearVal) {
         yearIn.style.borderColor = 'red';
         yearLabel.style.color = 'red';
 
-        yearOut.innerHTML = '--';
-        monthOut.innerHTML = '--';
-        dayOut.innerHTML = '--';
     }
     
     else if(yearVal > currentYear) {
@@ -67,17 +70,13 @@ function checkYear(yearVal) {
         yearIn.style.borderColor = 'red';
         yearLabel.style.color = 'red';
 
-        yearOut.innerHTML = '--';
-        monthOut.innerHTML = '--';
-        dayOut.innerHTML = '--';
     }
 
     else{
-        yearResult = currentYear - yearVal;
         yearError.style.display = 'none';
         yearIn.style.borderColor = 'var(--gray-border)';
         yearLabel.style.color = 'var(--gray-text)';
-        yearDone = true;
+        yearResult = currentYear - inputYear;
         
     }
     
@@ -92,40 +91,36 @@ function isLeapYear (yearVal){
 
 
 // Check if month is valid
-function checkMonth(monthVal){
+function checkMonth(monthVal,inputDate){
     if(monthVal == '' || monthVal > 12 || monthVal < 1){
         monthError.style.display = 'block';
         monthError.style.borderColor = 'red';
         monthLabel.style.color = 'red';
-        monthDone = false;
 
-        yearOut.innerHTML = '--';
-        monthOut.innerHTML = '--';
-        dayOut.innerHTML = '--';
     }
 
     else{
         monthError.style.display = 'none';
         monthError.style.borderColor = 'var(--gray-border)';
         monthLabel.style.color = 'var(--gray-text)';
-        monthResult = Math.abs((currentDate.getMonth() + 1) - monthVal);
-        monthDone = true;
+        monthResult = (currentDate.getMonth()+1) - (inputDate.getMonth()+1);
+
+        if(monthResult < 0){
+            --yearResult;
+            monthResult += 12;
+        }
         
     }
 }
 
 
 // Check if day is valid
-function checkDay(dayVal, monthVal){
+function checkDay(dayVal, monthVal, inputDate){
     if(dayVal == '' || dayVal > 31 || dayVal < 1) {
         dayError.style.display = 'block';
         dayError.style.borderColor = 'red';
         dayLabel.style.color = 'red';
-        dayDone = false;
 
-        yearOut.innerHTML = '--';
-        monthOut.innerHTML = '--';
-        dayOut.innerHTML = '--';
     }
 
     else{
@@ -133,19 +128,18 @@ function checkDay(dayVal, monthVal){
             dayError.style.display = 'block';
             dayError.style.borderColor = 'red';
             dayLabel.style.color = 'red';
-            dayDone = false;
 
-            yearOut.innerHTML = '--';
-            monthOut.innerHTML = '--';
-            dayOut.innerHTML = '--';
         }
         else {
             dayError.style.display = 'none';
             dayError.style.borderColor = 'var(--gray-border)';
             dayLabel.style.color = 'var(--gray-text)';
-            console.log(currentDate.getDay());
-            dayResult = Math.abs(currentDate.getDate() - dayVal);
-            dayDone = true;
+            dayResult = currentDate.getDate() - inputDate.getDate();
+
+            if(dayResult < 0){
+                --monthResult;
+                dayResult += getMaxDay(monthResult);
+            }
         }
     }
 }
@@ -173,10 +167,6 @@ function getMaxDay(monthVal){
     }
 }
 
-// function allDone(yearDone, monthDone, dayDone){
-//     console.log(yearDone && monthDone && dayDone);
-//     return yearDone && monthDone && dayDone;
-// }
 
 function showResults(yearResult, monthResult, dayResult){
 
