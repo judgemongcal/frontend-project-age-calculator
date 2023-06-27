@@ -93,6 +93,7 @@ label{
     color: var(--error);
     margin-top: 0.5rem;
     text-align: left;
+    display: none;
 }
 
 .results{
